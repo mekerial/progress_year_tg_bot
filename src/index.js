@@ -1,11 +1,19 @@
+const express = require("express");
 const TelegramBot = require('node-telegram-bot-api');
 const dotenv = require('dotenv')
-dotenv.config()
 
+dotenv.config()
+const PORT = 3000;
+
+const app = express();
+app.use(express.json())
+
+app.get('/', (req, res) => {
+    res.send('hello!')
+});
 
 const tgBotToken = process.env.TG_BOT_TOKEN
 const bot = new TelegramBot(tgBotToken, { polling: true });
-
 
 const CHANNEL_ID = process.env.TG_CHANNEL_ID;
 
@@ -53,3 +61,9 @@ setInterval(checkAndPostPercentage, 15 * 60 * 1000);
 checkAndPostPercentage();
 
 console.log('Бот запущен и публикует обновления.');
+
+
+
+
+
+app.listen(PORT, () => console.log(`app started on port: ${PORT}`));
